@@ -1,0 +1,25 @@
+# Secrets
+.env
+
+# macOS
+.DS_Store
+
+# Claude Code session data
+.claude/
+
+# Cache and report output — keep the folders, ignore contents
+cache/*
+!cache/.gitkeep
+reports/*
+!reports/.gitkeep
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
