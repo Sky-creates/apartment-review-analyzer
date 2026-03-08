@@ -13,7 +13,7 @@ python main.py "Avalon Mission Bay San Francisco" --save pdf
 Most apartments have a 4.x rating and glowing recent reviews. ApartmentLens digs deeper:
 
 - Fetches up to all available Google Maps reviews (paginated)
-- Runs two AI passes: **theme analysis** (terminal) + **keyword segmentation** (report)
+- Runs two AI passes: **theme analysis** + **keyword segmentation** — both saved to the report
 - Shows you the most-complained-about topics first — noise, management, maintenance, etc.
 - Exports clean **PDF**, **Markdown**, or **JSON** reports
 
@@ -96,7 +96,7 @@ python main.py "NEMA SF" --no-cache --save pdf markdown
 
 ```
 Search query → SerpAPI Google Maps → paginated review fetch
-    → LLM 1: theme analysis       (terminal display)
+    → LLM 1: theme analysis       (terminal + saved report)
     → LLM 2: keyword segmentation (saved report)
     → PDF / Markdown / JSON export
 ```
@@ -110,7 +110,7 @@ All API responses and LLM outputs are **cached locally** in `./cache/`. Re-runni
 | Format | Contents |
 |--------|----------|
 | **Terminal** | Themes, sentiment, keyword bars, quotes, verdict |
-| **PDF / Markdown** | Keyword-centric report sorted by most-negative topic first |
+| **PDF / Markdown** | Keyword segments (sorted by most-negative first) + theme analysis + verdict |
 | **JSON** | Full structured data — themes, keyword groups, rating distribution, raw stats |
 
 ---

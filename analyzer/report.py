@@ -145,6 +145,36 @@ def _to_markdown(result: AnalysisResult) -> str:
         lines.append("*No keyword segmentation data available.*\n")
         lines.append("---\n")
 
+    # Theme analysis
+    if result.themes:
+        lines.append("## AI Theme Analysis\n")
+        for theme in result.themes:
+            sentiment_icon = {"positive": "✓", "negative": "✗", "mixed": "~", "neutral": "·"}.get(
+                theme.sentiment, "·"
+            )
+            lines.append(f"### {sentiment_icon} {theme.name} (~{theme.mentions} mentions)\n")
+            if theme.summary:
+                lines.append(f"{theme.summary}\n")
+            if theme.pros:
+                lines.append("**Pros:** " + " · ".join(theme.pros))
+            if theme.cons:
+                lines.append("**Cons:** " + " · ".join(theme.cons))
+            if theme.quotes:
+                for q in theme.quotes[:2]:
+                    lines.append(f'> "{q}"')
+            lines.append("")
+
+    # Overall verdict
+    if result.overall_pros or result.overall_cons or result.verdict:
+        lines.append("---\n")
+        lines.append("## Overall\n")
+        if result.overall_pros:
+            lines.append("**Pros:** " + " · ".join(result.overall_pros))
+        if result.overall_cons:
+            lines.append("**Cons:** " + " · ".join(result.overall_cons))
+        if result.verdict:
+            lines.append(f"\n{result.verdict}")
+
     return "\n".join(lines)
 
 

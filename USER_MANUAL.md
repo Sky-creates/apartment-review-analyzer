@@ -173,7 +173,7 @@ Local stats computed
 LLM call 1 — Theme analysis (Gemini 2.5 Flash)
     │   All reviews sent in one prompt (≤500 reviews)
     │   Batched + synthesized for larger sets (>500)
-    │   → Themes, pros/cons, verdict (used for terminal display)
+    │   → Themes, pros/cons, verdict (terminal display + saved report)
     ▼
 LLM call 2 — Keyword segmentation (Gemini 2.5 Flash)
     │   Each review split into keyword-tagged segments
@@ -288,7 +288,13 @@ python main.py "NEMA SF" --save pdf --output-dir ~/Desktop/apartment-research
 
 ### Report format (markdown and PDF)
 
-The saved report is **keyword-centric** — different from the terminal's theme view. Every review is split into short segments, each tagged with a keyword and a sentiment. Segments are then grouped by keyword and sorted with the most-complained-about topics first.
+The saved report has three sections:
+
+**1. Keyword segments** — every review split into short phrases, tagged with a keyword and sentiment, grouped by keyword and sorted with the most-complained-about topics first.
+
+**2. AI theme analysis** — the same themes shown in the terminal (sentiment, summary, pros, cons, quotes), appended after the keyword section.
+
+**3. Overall verdict** — consolidated pros, cons, and a 2-3 sentence summary paragraph.
 
 ```
 # NEMA San Francisco — Review Report
@@ -297,32 +303,42 @@ The saved report is **keyword-centric** — different from the terminal's theme 
 ---
 
 ## Rating Distribution
-
-- ★★★★★  ████████████  ...
-- ★☆☆☆☆  ████████      ...
-
----
+...
 
 ## noise  ✗ 15 negative · ✓ 3 positive
 
-**Negative mentions** (all 15):
+Negative mentions (all 15):
 - ★☆☆☆☆  "Walls are paper thin, you can hear everything"
-- ★☆☆☆☆  "Street noise from construction starts at 7am"
-- ...
-
-**Positive mentions** (showing 3 of 3):
-- ★★★★★  "Upper floors are surprisingly quiet"
-
----
+...
 
 ## maintenance team  ✓ 38 positive · ✗ 2 negative
 ...
+
+---
+
+## AI Theme Analysis
+
+### ✗ Noise (~18 mentions)
+Significant noise issues reported by multiple residents...
+**Cons:** thin walls · street noise · construction
+
+### ✓ Maintenance Team (~40 mentions)
+...
+
+---
+
+## Overall
+
+**Pros:** great location · responsive maintenance ...
+**Cons:** noise issues · parking limited ...
+
+Overall verdict paragraph...
 ```
 
-**Key behaviors:**
-- Sections are ordered by **negative count descending** — the worst issues appear first.
+**Key behaviors of the keyword section:**
+- Ordered by **negative count descending** — worst issues appear first.
 - **All** negative segments are shown.
-- For positive segments, the **top 3 by star rating** are shown, with a count of additional mentions.
+- For positives, the **top 3 by star rating** are shown, with a count of additional mentions.
 - Any keyword with at least 1 negative segment is always included, regardless of total mentions.
 
 The JSON format saves the complete structured data (all themes, keyword groups, raw stats) and is suitable for further processing.
